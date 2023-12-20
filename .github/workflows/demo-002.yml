@@ -1,0 +1,33 @@
+name: CD Pipeline
+
+on: [push]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: |
+          echo "Building the project..."
+
+      - name: Run Tests on Firefox
+        run: |
+          echo "Testing on Firefox..."
+
+      - name: Run Tests on Edge
+        run: |
+          echo "Testing on Edge..."
+
+      - name: Deploy to Staging
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "Deploying to Staging environment..."
+
+      - name: Deploy to Production
+        if: github.ref == 'refs/heads/main' && github.event_name == 'release' && github.event.action == 'published'
+        run: |
+          echo "Deploying to Production environment..."
+
